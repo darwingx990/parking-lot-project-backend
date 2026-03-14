@@ -1,4 +1,4 @@
-const Vehiculo = require('./Vehiculo');     // Aqui va la clase Vehiculo.
+const Vehiculo = require('./vehiculo');     // Aqui va la clase Vehiculo.
 
 const TIPOS_INCIDENCIA = ['RAYON', 'CHOQUE', 'ATROPELLAMIENTO', 'GOLPE_MURO'];
 
