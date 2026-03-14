@@ -3,13 +3,10 @@ const Vehiculo = require('./models/vehiculo');
 
 class AccesoSalidasService {
   constructor() {
-    // Por ahora, usamos un arreglo en memoria temporal
-    // hasta que se implemente la base de datos (MySQL/MongoDB)
     this.accesoSalidas = [];
   }
 
   async crearAccesoSalidas(datos) {
-    // En el futuro aquí se conecta con el ORM para crear en BD
     const nuevoAccesoSalidas = new AccesoSalidas(
       datos.id,
       datos.movimiento,
@@ -33,7 +30,6 @@ class AccesoSalidasService {
   }
 
   async actualizarAccesoSalidas(id, datosActualizados) {
-    // Lógica de actualización a implementar con BD
     const accesoSalida = await this.obtenerAccesoSalidasPorId(id);
     
     if (datosActualizados.movimiento) accesoSalida.setMovimiento(datosActualizados.movimiento);

@@ -4,13 +4,10 @@ const Operador = require('./models/Operador');
 
 class VehiculoService {
   constructor() {
-    // Por ahora, usamos un arreglo en memoria temporal
-    // hasta que se implemente la base de datos (MySQL/MongoDB)
     this.vehiculos = [];
   }
 
   async crearVehiculo(datos) {
-    // En el futuro aquí se conecta con el ORM para crear en BD
     const nuevoVehiculo = new Vehiculo(
       datos.id,
       datos.placa,
@@ -35,7 +32,6 @@ class VehiculoService {
   }
 
   async actualizarVehiculo(id, datosActualizados) {
-    // Lógica de actualización a implementar con BD
     const vehiculo = await this.obtenerVehiculoPorId(id);
     
     if (datosActualizados.placa) vehiculo.setPlaca(datosActualizados.placa);
