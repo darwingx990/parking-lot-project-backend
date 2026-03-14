@@ -2,28 +2,49 @@ const express = require('express');
 const cors = require('cors');
 require('dotenv').config();
 
-const usuarioRoutes = require('./routes/usuarioRoutes');
-const administradorRoutes = require('./routes/administradorRoutes');
-const operadorRoutes = require('./routes/operadorRoutes');
-
 const app = express();
-const PORT = process.env.PORT || 3000;
 
-// Middlewares globales
+// Middlewares
 app.use(cors());
-app.use(express.json()); // Permite a la app procesar cuerpos JSON en las peticiones HTTP
+app.use(express.json());
+app.use(express.urlencoded({ extended: true }));
 
-// Rutas de la API
+// Importar rutas
+const vehiculoRoutes = require('./src/routes/vehiculoRoutes');
+const accesoSalidasRoutes = require('./src/routes/accesoSalidasRoutes');
+const usuarioRoutes = require('./src/routes/usuarioRoutes');
+const administradorRoutes = require('./src/routes/administradorRoutes');
+const operadorRoutes = require('./src/routes/operadorRoutes');
+const picoPlacaRoutes = require('./src/routes/picoPlacaRoutes');
+const reporteIncidenciaRoutes = require('./src/routes/reporteIncidenciaRoutes');
+
+// Registrar rutas
+app.use('/api/vehiculos', vehiculoRoutes);
+app.use('/api/acceso-salidas', accesoSalidasRoutes);
 app.use('/api/usuarios', usuarioRoutes);
 app.use('/api/administradores', administradorRoutes);
 app.use('/api/operadores', operadorRoutes);
+app.use('/api/pico-placa', picoPlacaRoutes);
+app.use('/api/reporte-incidencia', reporteIncidenciaRoutes);
 
-// Ruta de prueba inicial
+// Ruta de prueba
 app.get('/', (req, res) => {
-    res.send('Servidor de Parking Lot funcionando correctamente.');
+  res.json({ message: 'Servidor del Parking Lot corriendo correctamente' });
 });
 
-// Levantar el servidor
-app.listen(PORT, () => {
-    console.log(`Servidor corriendo en el puerto ${PORT}`);
+// Manejo de errores (debe ser la última ruta)
+app.use((err, req, res, next) => {
+  console.error(err.stack);
+  res.status(500).json({ error: 'Error interno del servidor', message: err.message });
 });
+
+// Puerto
+const PORT = process.env.PORT || 3000;
+
+// Iniciar servidor
+app.listen(PORT, () => {
+  console.log(`✅ Servidor corriendo en puerto ${PORT}`);
+  console.log(`📍 URL: http://localhost:${PORT}`);
+});
+
+module.exports = app;
