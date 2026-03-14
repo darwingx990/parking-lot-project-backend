@@ -1,4 +1,4 @@
-const Vehiculo = require('./models/Vehiculo');
+const Vehiculo = require('./models/vehiculo');
 const Usuario = require('./models/Usuario');
 const Operador = require('./models/Operador');
 

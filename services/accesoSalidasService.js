@@ -1,5 +1,5 @@
-const AccesoSalidas = require('./models/AccesoSalidas');
-const Vehiculo = require('./models/Vehiculo');
+const AccesoSalidas = require('./models/accesoSalidas');
+const Vehiculo = require('./models/vehiculo');
 
 class AccesoSalidasService {
   constructor() {
