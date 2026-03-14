@@ -7,7 +7,7 @@ class PicoPlacaService {
 
     async crearPicoPlaca(datos) {
         const nuevoPicoPlaca = new PicoPlaca(
-            datos.id,
+            datos.id || Date.now().toString(),
             datos.tipoVehiculo,
             datos.numero,
             datos.dia
@@ -27,7 +27,13 @@ class PicoPlacaService {
     }
 
     async actualizarPicoPlaca(id, datosActualizados) {
-        return { message: "PicoPlaca actualizado logic pending." };
+        const picoPlaca = await this.obtenerPicoPlacaPorId(id);
+        
+        if (datosActualizados.tipoVehiculo) picoPlaca.setTipoVehiculo(datosActualizados.tipoVehiculo);
+        if (datosActualizados.numero) picoPlaca.setNumero(datosActualizados.numero);
+        if (datosActualizados.dia) picoPlaca.setDia(datosActualizados.dia);
+        
+        return picoPlaca;
     }
 
     async eliminarPicoPlaca(id) {

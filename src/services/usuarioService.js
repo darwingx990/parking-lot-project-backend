@@ -12,7 +12,7 @@ class UsuarioService {
     async crearUsuario(datos) {
         // En el futuro aquí se conecta con el ORM para crear
         const nuevoUsuario = new Usuario(
-            datos.id,
+            datos.id || Date.now().toString(),
             datos.tipoDocumento,
             datos.numeroDocumento,
             datos.primerNombre,
@@ -22,7 +22,7 @@ class UsuarioService {
             datos.direccionCorreo,
             datos.numeroCelular,
             datos.fotoPerfil,
-            datos.estado
+            datos.estado || 'activo'
         );
         this.usuarios.push(nuevoUsuario);
         return nuevoUsuario;
@@ -39,8 +39,20 @@ class UsuarioService {
     }
 
     async actualizarUsuario(id, datosActualizados) {
-        // Lógica de actualización a implementar
-        return { message: "Usuario actualizado logic pending." };
+        const usuario = await this.obtenerUsuarioPorId(id);
+        
+        if (datosActualizados.tipoDocumento) usuario.setTipoDocumento(datosActualizados.tipoDocumento);
+        if (datosActualizados.numeroDocumento) usuario.setNumeroDocumento(datosActualizados.numeroDocumento);
+        if (datosActualizados.primerNombre) usuario.setPrimerNombre(datosActualizados.primerNombre);
+        if (datosActualizados.segundoNombre) usuario.setSegundoNombre(datosActualizados.segundoNombre);
+        if (datosActualizados.primerApellido) usuario.setPrimerApellido(datosActualizados.primerApellido);
+        if (datosActualizados.segundoApellido) usuario.setSegundoApellido(datosActualizados.segundoApellido);
+        if (datosActualizados.direccionCorreo) usuario.setDireccionCorreo(datosActualizados.direccionCorreo);
+        if (datosActualizados.numeroCelular) usuario.setNumeroCelular(datosActualizados.numeroCelular);
+        if (datosActualizados.fotoPerfil) usuario.setFotoPerfil(datosActualizados.fotoPerfil);
+        if (datosActualizados.estado) usuario.setEstado(datosActualizados.estado);
+        
+        return usuario;
     }
 
     async eliminarUsuario(id) {

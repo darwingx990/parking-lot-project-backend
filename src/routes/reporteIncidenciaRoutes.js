@@ -22,6 +22,17 @@ router.get('/', async (req, res) => {
     }
 });
 
+// GET /api/reportes-incidencia/:id
+router.get('/:id', async (req, res) => {
+    try {
+        const id = req.params.id;
+        const reporte = await reporteIncidenciaService.obtenerReporteIncidenciaPorId(id);
+        res.status(200).json(reporte.toJSON());
+    } catch (error) {
+        res.status(404).json({ error: error.message });
+    }
+});
+
 // GET /api/reportes-incidencia/vehiculo/:vehiculoId
 router.get('/vehiculo/:vehiculoId', async (req, res) => {
     try {
@@ -38,7 +49,7 @@ router.put('/:id', async (req, res) => {
     try {
         const id = req.params.id;
         const resultado = await reporteIncidenciaService.actualizarReporteIncidencia(id, req.body);
-        res.status(200).json(resultado);
+        res.status(200).json(resultado.toJSON());
     } catch (error) {
         res.status(400).json({ error: error.message });
     }
@@ -49,9 +60,9 @@ router.delete('/:id', async (req, res) => {
     try {
         const id = req.params.id;
         const resultado = await reporteIncidenciaService.eliminarReporteIncidencia(id);
-        res.status(200).json(resultado);
+        res.status(200).json({ message: 'Reporte de incidencia eliminado correctamente', reporte: resultado.toJSON() });
     } catch (error) {
-        res.status(400).json({ error: error.message });
+        res.status(404).json({ error: error.message });
     }
 });
 

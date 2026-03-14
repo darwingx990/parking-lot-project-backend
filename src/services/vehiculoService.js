@@ -1,6 +1,6 @@
-const Vehiculo = require('./models/vehiculo');
-const Usuario = require('./models/Usuario');
-const Operador = require('./models/Operador');
+const Vehiculo = require('../models/vehiculo');
+const Usuario = require('../models/Usuario');
+const Operador = require('../models/Operador');
 
 class VehiculoService {
   constructor() {
@@ -9,7 +9,7 @@ class VehiculoService {
 
   async crearVehiculo(datos) {
     const nuevoVehiculo = new Vehiculo(
-      datos.id,
+      datos.id || Date.now().toString(),
       datos.placa,
       datos.color,
       datos.modelo,
@@ -53,4 +53,4 @@ class VehiculoService {
   }
 }
 
-module.exports = VehiculoService;
+module.exports = new VehiculoService();

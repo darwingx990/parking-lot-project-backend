@@ -1,0 +1,545 @@
+{
+	"info": {
+		"_postman_id": "5d6e7f8a-1234-5678-90ab-cdef12345678",
+		"name": "Parking Lot API",
+		"schema": "https://schema.getpostman.com/json/collection/v2.1.0/collection.json"
+	},
+	"item": [
+		{
+			"name": "Test Server",
+			"item": [
+				{
+					"name": "Health Check",
+					"request": {
+						"method": "GET",
+						"header": [],
+						"url": {
+							"raw": "http://localhost:3001/",
+							"protocol": "http",
+							"host": [
+								"localhost"
+							],
+							"port": "3001",
+							"path": [
+								""
+							]
+						}
+					},
+					"response": []
+				}
+			]
+		},
+		{
+			"name": "Vehiculos",
+			"item": [
+				{
+					"name": "Get All Vehiculos",
+					"request": {
+						"method": "GET",
+						"header": [],
+						"url": {
+							"raw": "http://localhost:3001/api/vehiculos",
+							"protocol": "http",
+							"host": [
+								"localhost"
+							],
+							"port": "3001",
+							"path": [
+								"api",
+								"vehiculos"
+							]
+						}
+					},
+					"response": []
+				},
+				{
+					"name": "Create Vehiculo",
+					"request": {
+						"method": "POST",
+						"header": [
+							{
+								"key": "Content-Type",
+								"name": "Content-Type",
+								"value": "application/json",
+								"type": "text"
+							}
+						],
+						"body": {
+							"mode": "raw",
+							"raw": "{\n    \"placa\": \"XYZ789\",\n    \"color\": \"azul\",\n    \"modelo\": \"2022\",\n    \"marca\": \"Honda\",\n    \"tipo\": \"suv\",\n    \"usuario\": \"54321\"\n}"
+						},
+						"url": {
+							"raw": "http://localhost:3001/api/vehiculos",
+							"protocol": "http",
+							"host": [
+								"localhost"
+							],
+							"port": "3001",
+							"path": [
+								"api",
+								"vehiculos"
+							]
+						}
+					},
+					"response": []
+				},
+				{
+					"name": "Get Vehiculo by ID",
+					"request": {
+						"method": "GET",
+						"header": [],
+						"url": {
+							"raw": "http://localhost:3001/api/vehiculos/:id",
+							"protocol": "http",
+							"host": [
+								"localhost"
+							],
+							"port": "3001",
+							"path": [
+								"api",
+								"vehiculos",
+								":id"
+							],
+							"variable": [
+								{
+									"key": "id",
+									"value": "1773463670344"
+								}
+							]
+						}
+					},
+					"response": []
+				},
+				{
+					"name": "Update Vehiculo",
+					"request": {
+						"method": "PUT",
+						"header": [
+							{
+								"key": "Content-Type",
+								"name": "Content-Type",
+								"value": "application/json",
+								"type": "text"
+							}
+						],
+						"body": {
+							"mode": "raw",
+							"raw": "{\n    \"color\": \"negro\",\n    \"modelo\": \"2024\"\n}"
+						},
+						"url": {
+							"raw": "http://localhost:3001/api/vehiculos/:id",
+							"protocol": "http",
+							"host": [
+								"localhost"
+							],
+							"port": "3001",
+							"path": [
+								"api",
+								"vehiculos",
+								":id"
+							],
+							"variable": [
+								{
+									"key": "id",
+									"value": "1773463670344"
+								}
+							]
+						}
+					},
+					"response": []
+				},
+				{
+					"name": "Delete Vehiculo",
+					"request": {
+						"method": "DELETE",
+						"header": [],
+						"url": {
+							"raw": "http://localhost:3001/api/vehiculos/:id",
+							"protocol": "http",
+							"host": [
+								"localhost"
+							],
+							"port": "3001",
+							"path": [
+								"api",
+								"vehiculos",
+								":id"
+							],
+							"variable": [
+								{
+									"key": "id",
+									"value": "1773463670344"
+								}
+							]
+						}
+					},
+					"response": []
+				}
+			]
+		},
+		{
+			"name": "Usuarios",
+			"item": [
+				{
+					"name": "Get All Usuarios",
+					"request": {
+						"method": "GET",
+						"header": [],
+						"url": {
+							"raw": "http://localhost:3001/api/usuarios",
+							"protocol": "http",
+							"host": [
+								"localhost"
+							],
+							"port": "3001",
+							"path": [
+								"api",
+								"usuarios"
+							]
+						}
+					},
+					"response": []
+				},
+				{
+					"name": "Create Usuario",
+					"request": {
+						"method": "POST",
+						"header": [
+							{
+								"key": "Content-Type",
+								"name": "Content-Type",
+								"value": "application/json",
+								"type": "text"
+							}
+						],
+						"body": {
+							"mode": "raw",
+							"raw": "{\n    \"tipoDocumento\": \"CC\",\n    \"numeroDocumento\": \"123456789\",\n    \"primerNombre\": \"Juan\",\n    \"segundoNombre\": \"Pablo\",\n    \"primerApellido\": \"Pérez\",\n    \"segundoApellido\": \"García\",\n    \"direccionCorreo\": \"juan.perez@example.com\",\n    \"numeroCelular\": \"3101234567\",\n    \"fotoPerfil\": \"https://example.com/foto.jpg\",\n    \"estado\": \"activo\"\n}"
+						},
+						"url": {
+							"raw": "http://localhost:3001/api/usuarios",
+							"protocol": "http",
+							"host": [
+								"localhost"
+							],
+							"port": "3001",
+							"path": [
+								"api",
+								"usuarios"
+							]
+						}
+					},
+					"response": []
+				}
+			]
+		},
+		{
+			"name": "Administradores",
+			"item": [
+				{
+					"name": "Get All Administradores",
+					"request": {
+						"method": "GET",
+						"header": [],
+						"url": {
+							"raw": "http://localhost:3001/api/administradores",
+							"protocol": "http",
+							"host": [
+								"localhost"
+							],
+							"port": "3001",
+							"path": [
+								"api",
+								"administradores"
+							]
+						}
+					},
+					"response": []
+				},
+				{
+					"name": "Create Administrador",
+					"request": {
+						"method": "POST",
+						"header": [
+							{
+								"key": "Content-Type",
+								"name": "Content-Type",
+								"value": "application/json",
+								"type": "text"
+							}
+						],
+						"body": {
+							"mode": "raw",
+							"raw": "{\n    \"tipoDocumento\": \"CC\",\n    \"numeroDocumento\": \"987654321\",\n    \"primerNombre\": \"María\",\n    \"segundoNombre\": \"Fernanda\",\n    \"primerApellido\": \"López\",\n    \"segundoApellido\": \"Martínez\",\n    \"direccionCorreo\": \"maria.lopez@example.com\",\n    \"numeroCelular\": \"3159876543\",\n    \"fotoPerfil\": \"https://example.com/maria.jpg\",\n    \"estado\": \"activo\",\n    \"clave\": \"admin123\"\n}"
+						},
+						"url": {
+							"raw": "http://localhost:3001/api/administradores",
+							"protocol": "http",
+							"host": [
+								"localhost"
+							],
+							"port": "3001",
+							"path": [
+								"api",
+								"administradores"
+							]
+						}
+					},
+					"response": []
+				}
+			]
+		},
+		{
+			"name": "Operadores",
+			"item": [
+				{
+					"name": "Get All Operadores",
+					"request": {
+						"method": "GET",
+						"header": [],
+						"url": {
+							"raw": "http://localhost:3001/api/operadores",
+							"protocol": "http",
+							"host": [
+								"localhost"
+							],
+							"port": "3001",
+							"path": [
+								"api",
+								"operadores"
+							]
+						}
+					},
+					"response": []
+				},
+				{
+					"name": "Create Operador",
+					"request": {
+						"method": "POST",
+						"header": [
+							{
+								"key": "Content-Type",
+								"name": "Content-Type",
+								"value": "application/json",
+								"type": "text"
+							}
+						],
+						"body": {
+							"mode": "raw",
+							"raw": "{\n    \"tipoDocumento\": \"CC\",\n    \"numeroDocumento\": \"456789123\",\n    \"primerNombre\": \"Carlos\",\n    \"segundoNombre\": \"Andrés\",\n    \"primerApellido\": \"Gómez\",\n    \"segundoApellido\": \"Rodríguez\",\n    \"direccionCorreo\": \"carlos.gomez@example.com\",\n    \"numeroCelular\": \"3114567890\",\n    \"fotoPerfil\": \"https://example.com/carlos.jpg\",\n    \"estado\": \"activo\",\n    \"clave\": \"operador123\"\n}"
+						},
+						"url": {
+							"raw": "http://localhost:3001/api/operadores",
+							"protocol": "http",
+							"host": [
+								"localhost"
+							],
+							"port": "3001",
+							"path": [
+								"api",
+								"operadores"
+							]
+						}
+					},
+					"response": []
+				}
+			]
+		},
+		{
+			"name": "Pico y Placa",
+			"item": [
+				{
+					"name": "Get All PicoPlaca",
+					"request": {
+						"method": "GET",
+						"header": [],
+						"url": {
+							"raw": "http://localhost:3001/api/pico-placa",
+							"protocol": "http",
+							"host": [
+								"localhost"
+							],
+							"port": "3001",
+							"path": [
+								"api",
+								"pico-placa"
+							]
+						}
+					},
+					"response": []
+				},
+				{
+					"name": "Create PicoPlaca",
+					"request": {
+						"method": "POST",
+						"header": [
+							{
+								"key": "Content-Type",
+								"name": "Content-Type",
+								"value": "application/json",
+								"type": "text"
+							}
+						],
+						"body": {
+							"mode": "raw",
+							"raw": "{\n    \"tipoVehiculo\": \"sedan\",\n    \"numero\": \"1\",\n    \"dia\": \"lunes\"\n}"
+						},
+						"url": {
+							"raw": "http://localhost:3001/api/pico-placa",
+							"protocol": "http",
+							"host": [
+								"localhost"
+							],
+							"port": "3001",
+							"path": [
+								"api",
+								"pico-placa"
+							]
+						}
+					},
+					"response": []
+				}
+			]
+		},
+		{
+			"name": "Acceso/Salidas",
+			"item": [
+				{
+					"name": "Get All Acceso/Salidas",
+					"request": {
+						"method": "GET",
+						"header": [],
+						"url": {
+							"raw": "http://localhost:3001/api/acceso-salidas",
+							"protocol": "http",
+							"host": [
+								"localhost"
+							],
+							"port": "3001",
+							"path": [
+								"api",
+								"acceso-salidas"
+							]
+						}
+					},
+					"response": []
+				},
+				{
+					"name": "Create Acceso/Salida",
+					"request": {
+						"method": "POST",
+						"header": [
+							{
+								"key": "Content-Type",
+								"name": "Content-Type",
+								"value": "application/json",
+								"type": "text"
+							}
+						],
+						"body": {
+							"mode": "raw",
+							"raw": "{\n    \"movimiento\": \"acceso\",\n    \"fechaHora\": \"2024-10-05T08:30:00Z\",\n    \"puerta\": \"A\",\n    \"tiempo_estadia\": 120,\n    \"vehiculo\": \"1773463670344\"\n}"
+						},
+						"url": {
+							"raw": "http://localhost:3001/api/acceso-salidas",
+							"protocol": "http",
+							"host": [
+								"localhost"
+							],
+							"port": "3001",
+							"path": [
+								"api",
+								"acceso-salidas"
+							]
+						}
+					},
+					"response": []
+				}
+			]
+		},
+		{
+			"name": "Reportes Incidencia",
+			"item": [
+				{
+					"name": "Get All Reportes",
+					"request": {
+						"method": "GET",
+						"header": [],
+						"url": {
+							"raw": "http://localhost:3001/api/reportes-incidencia",
+							"protocol": "http",
+							"host": [
+								"localhost"
+							],
+							"port": "3001",
+							"path": [
+								"api",
+								"reportes-incidencia"
+							]
+						}
+					},
+					"response": []
+				},
+				{
+					"name": "Create Reporte",
+					"request": {
+						"method": "POST",
+						"header": [
+							{
+								"key": "Content-Type",
+								"name": "Content-Type",
+								"value": "application/json",
+								"type": "text"
+							}
+						],
+						"body": {
+							"mode": "raw",
+							"raw": "{\n    \"incidencia\": \"Daño en la pintura\",\n    \"vehiculo\": \"1773463670344\",\n    \"fechaIncidencia\": \"2024-10-05T10:15:00Z\"\n}"
+						},
+						"url": {
+							"raw": "http://localhost:3001/api/reportes-incidencia",
+							"protocol": "http",
+							"host": [
+								"localhost"
+							],
+							"port": "3001",
+							"path": [
+								"api",
+								"reportes-incidencia"
+							]
+						}
+					},
+					"response": []
+				},
+				{
+					"name": "Get Reportes by Vehiculo",
+					"request": {
+						"method": "GET",
+						"header": [],
+						"url": {
+							"raw": "http://localhost:3001/api/reportes-incidencia/vehiculo/:vehiculoId",
+							"protocol": "http",
+							"host": [
+								"localhost"
+							],
+							"port": "3001",
+							"path": [
+								"api",
+								"reportes-incidencia",
+								"vehiculo",
+								":vehiculoId"
+							],
+							"variable": [
+								{
+									"key": "vehiculoId",
+									"value": "1773463670344"
+								}
+							]
+						}
+					},
+					"response": []
+				}
+			]
+		}
+	]
+}

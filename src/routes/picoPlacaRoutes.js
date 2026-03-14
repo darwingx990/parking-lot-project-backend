@@ -33,25 +33,25 @@ router.get('/:id', async (req, res) => {
     }
 });
 
-// PUT /api/picoplacas/:id
+// PUT /api/pico-placa/:id
 router.put('/:id', async (req, res) => {
     try {
         const id = req.params.id;
         const resultado = await picoPlacaService.actualizarPicoPlaca(id, req.body);
-        res.status(200).json(resultado);
+        res.status(200).json(resultado.toJSON());
     } catch (error) {
         res.status(400).json({ error: error.message });
     }
 });
 
-// DELETE /api/picoplacas/:id
+// DELETE /api/pico-placa/:id
 router.delete('/:id', async (req, res) => {
     try {
         const id = req.params.id;
         const resultado = await picoPlacaService.eliminarPicoPlaca(id);
-        res.status(200).json(resultado);
+        res.status(200).json({ message: 'Pico y Placa eliminado correctamente' });
     } catch (error) {
-        res.status(400).json({ error: error.message });
+        res.status(404).json({ error: error.message });
     }
 });
 
