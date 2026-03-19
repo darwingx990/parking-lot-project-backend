@@ -5,6 +5,8 @@ require('dotenv').config();
 const usuarioRoutes = require('./routes/usuarioRoutes');
 const administradorRoutes = require('./routes/administradorRoutes');
 const operadorRoutes = require('./routes/operadorRoutes');
+const reporteIncidenciaRoutes = require('./routes/reporteIncidenciaRoutes');
+const incidenciaRoutes = require('./routes/incidenciaRoutes');
 
 const app = express();
 const PORT = process.env.PORT || 3000;
@@ -17,6 +19,8 @@ app.use(express.json()); // Permite a la app procesar cuerpos JSON en las petici
 app.use('/api/usuarios', usuarioRoutes);
 app.use('/api/administradores', administradorRoutes);
 app.use('/api/operadores', operadorRoutes);
+app.use('/api/reportes-incidencia', reporteIncidenciaRoutes);
+app.use('/api/incidencias', incidenciaRoutes);
 
 // Ruta de prueba inicial
 app.get('/', (req, res) => {
