@@ -34,8 +34,7 @@ class GetEstadoService {
     }
 
     async eliminarEstado(id) {
-        const existe = await this.obtenerEstadoPorId(id);
-        if (!existe) throw new Error('Estado no encontrado');
+        await this.obtenerEstadoPorId(id);
         this.estados = this.estados.filter(e => e.getId() !== id);
         return { message: 'Estado eliminado exitosamente' };
     }

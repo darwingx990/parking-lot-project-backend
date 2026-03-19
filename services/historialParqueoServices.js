@@ -18,8 +18,11 @@ class HistorialParqueoService {
         const vehiculo = new Vehiculo(
             datos.vehiculo.id,
             datos.vehiculo.placa,
+            datos.vehiculo.color,
+            datos.vehiculo.modelo,
+            datos.vehiculo.marca,
             datos.vehiculo.tipo,
-            datos.vehiculo.estado
+            datos.vehiculo.usuario
         );
 
         const nuevoHistorial = new HistorialParqueo(
@@ -58,8 +61,11 @@ class HistorialParqueoService {
             const vehiculo = new Vehiculo(
                 datosActualizados.vehiculo.id,
                 datosActualizados.vehiculo.placa,
+                datosActualizados.vehiculo.color,
+                datosActualizados.vehiculo.modelo,
+                datosActualizados.vehiculo.marca,
                 datosActualizados.vehiculo.tipo,
-                datosActualizados.vehiculo.estado
+                datosActualizados.vehiculo.usuario
             );
             historial.setVehiculo(vehiculo);
         }
