@@ -6,7 +6,7 @@ const picoPlacaService = require('../services/picoPlacaService');
 router.post('/', async (req, res) => {
     try {
         const nuevoPicoPlaca = await picoPlacaService.crearPicoPlaca(req.body);
-        res.status(201).json({ message: 'PicoPlaca creado exitosamente', picoPlaca: nuevoPicoPlaca.toJSON() });
+        res.status(201).json({ message: 'Pico y Placa creado exitosamente', picoPlaca: nuevoPicoPlaca.toJSON() });
     } catch (error) {
         res.status(400).json({ error: error.message });
     }
