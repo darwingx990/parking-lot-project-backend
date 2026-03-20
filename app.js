@@ -7,6 +7,11 @@ const administradorRoutes = require('./routes/administradorRoutes');
 const operadorRoutes = require('./routes/operadorRoutes');
 const reporteIncidenciaRoutes = require('./routes/reporteIncidenciaRoutes');
 const incidenciaRoutes = require('./routes/incidenciaRoutes');
+const historialParqueoRoutes = require('./routes/historialParqueoRoutes');
+const getEstadoRoutes = require('./routes/getEstadoRoutes');
+const vehiculoRoutes = require('./routes/vehiculoRoutes');
+const accesoSalidaRoutes = require('./routes/accesoSalidaRoutes');
+const picoPlacaRoutes = require('./routes/picoPlacaRoutes');
 
 const app = express();
 const PORT = process.env.PORT || 3000;
@@ -21,7 +26,11 @@ app.use('/api/administradores', administradorRoutes);
 app.use('/api/operadores', operadorRoutes);
 app.use('/api/reportes-incidencia', reporteIncidenciaRoutes);
 app.use('/api/incidencias', incidenciaRoutes);
-
+app.use('/api/historial-parqueo', historialParqueoRoutes);
+app.use('/api/get-estado', getEstadoRoutes);   
+app.use('/api/vehiculos', vehiculoRoutes);
+app.use('/api/acceso-salida', accesoSalidaRoutes);
+app.use('/api/pico-placa', picoPlacaRoutes);
 // Ruta de prueba inicial
 app.get('/', (req, res) => {
     res.send('Servidor de Parking Lot funcionando correctamente.');
