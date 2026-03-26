@@ -1,8 +1,8 @@
-const Incidencia = require('../models/incidenciasModel');
+const Incidencia = require('../models/incidencia');
 
 class IncidenciaService {
     constructor() {
-        this.incidencias = [];
+        this.incidencia = [];
     }
 
     validarDatosIncidencia(datos) {
@@ -30,22 +30,22 @@ class IncidenciaService {
             datos.hora,
             datos.tipoIncidencia
         );
-        this.incidencias.push(nuevaIncidencia);
+        this.incidencia.push(nuevaIncidencia);
         return nuevaIncidencia;
     }
 
     async obtenerIncidencias() {
-        return this.incidencias;
+        return this.incidencia;
     }
 
     async obtenerIncidenciaPorCodigo(codigo) {
-        const incidencia = this.incidencias.find(i => i.getCodigo() === codigo);
+        const incidencia = this.incidencia.find(i => i.getCodigo() === codigo);
         if (!incidencia) throw new Error('Incidencia no encontrada');
         return incidencia;
     }
 
     async actualizarIncidencia(codigo, datosActualizados) {
-        const incidencia = this.incidencias.find(i => i.getCodigo() === codigo);
+        const incidencia = this.incidencia.find(i => i.getCodigo() === codigo);
         if (!incidencia) throw new Error('Incidencia no encontrada');
 
         if (datosActualizados.vehiculo) incidencia.setVehiculo(datosActualizados.vehiculo);
@@ -62,10 +62,10 @@ class IncidenciaService {
     }
 
     async eliminarIncidencia(codigo) {
-        const index = this.incidencias.findIndex(i => i.getCodigo() === codigo);
+        const index = this.incidencia.findIndex(i => i.getCodigo() === codigo);
         if (index === -1) throw new Error('Incidencia no encontrada');
         
-        this.incidencias.splice(index, 1);
+        this.incidencia.splice(index, 1);
         return { message: 'Incidencia eliminada' };
     }
 }

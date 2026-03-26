@@ -29,8 +29,8 @@ router.post('/', verificarAdminOOperador, async (req, res) => {
 
 router.get('/', verificarAdminOOperador, async (req, res) => {
     try {
-        const incidencias = await incidenciaService.obtenerIncidencias();
-        res.status(200).json(incidencias.map(i => i.toJSON()));
+        const incidencia = await incidenciaService.obtenerIncidencias();
+        res.status(200).json(incidencia.map(i => i.toJSON()));
     } catch (error) {
         res.status(500).json({ error: error.message });
     }

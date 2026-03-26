@@ -10,7 +10,7 @@ const incidenciaRoutes = require('./routes/incidenciaRoutes');
 const historialParqueoRoutes = require('./routes/historialParqueoRoutes');
 const getEstadoRoutes = require('./routes/getEstadoRoutes');
 const vehiculoRoutes = require('./routes/vehiculoRoutes');
-const accesoSalidaRoutes = require('./routes/accesoSalidaRoutes');
+const accesoSalidasRoutes = require('./routes/accesoSalidasRoutes');
 const picoPlacaRoutes = require('./routes/picoPlacaRoutes');
 
 const app = express();
@@ -25,11 +25,11 @@ app.use('/api/usuarios', usuarioRoutes);
 app.use('/api/administradores', administradorRoutes);
 app.use('/api/operadores', operadorRoutes);
 app.use('/api/reportes-incidencia', reporteIncidenciaRoutes);
-app.use('/api/incidencias', incidenciaRoutes);
+app.use('/api/incidencia', incidenciaRoutes);
 app.use('/api/historial-parqueo', historialParqueoRoutes);
 app.use('/api/get-estado', getEstadoRoutes);   
-app.use('/api/vehiculos', vehiculoRoutes);
-app.use('/api/acceso-salida', accesoSalidaRoutes);
+app.use('/api/vehiculo', vehiculoRoutes);
+app.use('/api/acceso-salida', accesoSalidasRoutes);
 app.use('/api/pico-placa', picoPlacaRoutes);
 // Ruta de prueba inicial
 app.get('/', (req, res) => {

@@ -272,7 +272,7 @@
                             "raw": "{\n  \"codigo\": \"INC001\",\n  \"descripcion\": \"Acceso denegado a usuario\",\n  \"tipo\": \"acceso\",\n  \"usuarioId\": \"U123\",\n  \"fechaCreacion\": \"2026-03-19\",\n  \"estado\": \"abierta\"\n}"
                         },
                         "url": {
-                            "raw": "http://localhost:3000/api/incidencias",
+                            "raw": "http://localhost:3000/api/incidencia",
                             "protocol": "http",
                             "host": [
                                 "localhost"
@@ -280,13 +280,13 @@
                             "port": "3000",
                             "path": [
                                 "api",
-                                "incidencias"
+                                "incidencia"
                             ]
                         }
                     }
                 },
                 {
-                    "name": "Obtener todas las Incidencias (Admin/Operador)",
+                    "name": "Obtener todas las incidencia (Admin/Operador)",
                     "request": {
                         "method": "GET",
                         "header": [
@@ -297,7 +297,7 @@
                             }
                         ],
                         "url": {
-                            "raw": "http://localhost:3000/api/incidencias",
+                            "raw": "http://localhost:3000/api/incidencia",
                             "protocol": "http",
                             "host": [
                                 "localhost"
@@ -305,7 +305,7 @@
                             "port": "3000",
                             "path": [
                                 "api",
-                                "incidencias"
+                                "incidencia"
                             ]
                         }
                     }
@@ -322,7 +322,7 @@
                             }
                         ],
                         "url": {
-                            "raw": "http://localhost:3000/api/incidencias/INC001",
+                            "raw": "http://localhost:3000/api/incidencia/INC001",
                             "protocol": "http",
                             "host": [
                                 "localhost"
@@ -330,7 +330,7 @@
                             "port": "3000",
                             "path": [
                                 "api",
-                                "incidencias",
+                                "incidencia",
                                 "INC001"
                             ]
                         }
@@ -356,7 +356,7 @@
                             "raw": "{\n  \"descripcion\": \"Acceso denegado a usuario - actualizado\",\n  \"estado\": \"en_proceso\"\n}"
                         },
                         "url": {
-                            "raw": "http://localhost:3000/api/incidencias/INC001",
+                            "raw": "http://localhost:3000/api/incidencia/INC001",
                             "protocol": "http",
                             "host": [
                                 "localhost"
@@ -364,7 +364,7 @@
                             "port": "3000",
                             "path": [
                                 "api",
-                                "incidencias",
+                                "incidencia",
                                 "INC001"
                             ]
                         }
@@ -382,7 +382,7 @@
                             }
                         ],
                         "url": {
-                            "raw": "http://localhost:3000/api/incidencias/INC001",
+                            "raw": "http://localhost:3000/api/incidencia/INC001",
                             "protocol": "http",
                             "host": [
                                 "localhost"
@@ -390,7 +390,7 @@
                             "port": "3000",
                             "path": [
                                 "api",
-                                "incidencias",
+                                "incidencia",
                                 "INC001"
                             ]
                         }

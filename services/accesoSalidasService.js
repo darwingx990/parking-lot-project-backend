@@ -1,5 +1,5 @@
-const AccesoSalidas = require('./models/AccesoSalidas');
-const Vehiculo = require('./models/Vehiculo');
+const AccesoSalidas = require('../models/AccesoSalidas');
+const Vehiculo = require('../models/Vehiculo');
 
 class AccesoSalidasService {
   constructor() {
@@ -27,22 +27,22 @@ class AccesoSalidasService {
   }
 
   async obtenerAccesoSalidasPorId(id) {
-    const accesoSalida = this.accesoSalidas.find(a => a.getId() === id);
-    if (!accesoSalida) throw new Error('Acceso/Salida no encontrado');
-    return accesoSalida;
+    const accesoSalidas = this.accesoSalidas.find(a => a.getId() === id);
+    if (!accesoSalidas) throw new Error('Acceso/Salida no encontrado');
+    return accesoSalidas;
   }
 
   async actualizarAccesoSalidas(id, datosActualizados) {
     // Lógica de actualización a implementar con BD
-    const accesoSalida = await this.obtenerAccesoSalidasPorId(id);
+    const accesoSalidas = await this.obtenerAccesoSalidasPorId(id);
     
-    if (datosActualizados.movimiento) accesoSalida.setMovimiento(datosActualizados.movimiento);
-    if (datosActualizados.fechaHora) accesoSalida.setFechaHora(datosActualizados.fechaHora);
-    if (datosActualizados.puerta) accesoSalida.setPuerta(datosActualizados.puerta);
-    if (datosActualizados.tiempo_estadia) accesoSalida.setTiempo_estadia(datosActualizados.tiempo_estadia);
-    if (datosActualizados.vehiculo) accesoSalida.setVehiculo(datosActualizados.vehiculo);
+    if (datosActualizados.movimiento) accesoSalidas.setMovimiento(datosActualizados.movimiento);
+    if (datosActualizados.fechaHora) accesoSalidas.setFechaHora(datosActualizados.fechaHora);
+    if (datosActualizados.puerta) accesoSalidas.setPuerta(datosActualizados.puerta);
+    if (datosActualizados.tiempo_estadia) accesoSalidas.setTiempo_estadia(datosActualizados.tiempo_estadia);
+    if (datosActualizados.vehiculo) accesoSalidas.setVehiculo(datosActualizados.vehiculo);
     
-    return accesoSalida;
+    return accesoSalidas;
   }
 
   async eliminarAccesoSalidas(id) {

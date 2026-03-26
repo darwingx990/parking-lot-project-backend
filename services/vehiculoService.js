@@ -1,10 +1,10 @@
-const Vehiculo = require('../models/vehiculoModel');
-const AccesoSalida = require('../models/accesoSalidaModel');
-const Operador = require('../models/operadorModel');
+const Vehiculo = require('../models/Vehiculo');
+const accesoSalidas= require('../models/AccesoSalidas');
+const Operador = require('../models/Operador');
 
 class VehiculoService {
     constructor() {
-        this.vehiculoModel = [];
+        this.vehiculo = [];
     }
 
     async crearVehiculo(datos) {
@@ -17,16 +17,16 @@ class VehiculoService {
             datos.tipo,
             datos.usuario
         );
-        this.vehiculoModel.push(nuevoVehiculo);
+        this.vehiculo.push(nuevoVehiculo);
         return nuevoVehiculo;
     }
 
     async obtenerVehiculos() {
-        return this.vehiculoModel;
+        return this.vehiculo;
     }
 
     async obtenerVehiculoPorId(id) {
-        const vehiculo = this.vehiculoModel.find(v => v.getId() === id);
+        const vehiculo = this.vehiculo.find(v => v.getId() === id);
         if (!vehiculo) throw new Error('Vehiculo no encontrado');
         return vehiculo;
     }
@@ -46,10 +46,10 @@ class VehiculoService {
     }
 
     async eliminarVehiculo(id) {
-        const indice = this.vehiculoModel.findIndex(v => v.getId() === id);
+        const indice = this.vehiculo.findIndex(v => v.getId() === id);
         if (indice === -1) throw new Error('Vehiculo no encontrado');
         
-        const vehiculoEliminado = this.vehiculoModel.splice(indice, 1);
+        const vehiculoEliminado = this.vehiculo.splice(indice, 1);
         return vehiculoEliminado[0];
     }
 }
