@@ -1,129 +1,33 @@
-import postgres from 'postgres'
+const postgres = require('postgres')
 
+// Obtener CONNECTION STRING desde variables de entorno
 const connectionString = process.env.DATABASE_URL
-const sql = postgres(connectionString)
 
-export default sql
-
-class DatabaseConnection {
-  constructor() {
-    // Configuración de la conexión basada en app.js
-    this.config = {
-      host: process.env.DB_HOST,
-      port: process.env.DB_PORT,
-      user: process.env.DB_USER,
-      password: process.env.DB_PASSWORD,
-      database: process.env.DB_NAME
-    };
-    
-    this.connection = null;
-    this.isConnected = false;
-  }
-
-  // Método para establecer la conexión
-  connect() {
-    return new Promise((resolve, reject) => {
-      this.connection = mysql.createConnection(this.config);
-      
-      this.connection.connect((err) => {
-        if (err) {
-          console.error('Error conectando a la base de datos:', err.message);
-          this.isConnected = false;
-          reject(err);
-          return;
-        }
-        
-        console.log('Conectado a MySQL como ID:', this.connection.threadId);
-        this.isConnected = true;
-        resolve(this.connection);
-      });
-
-      // Manejar errores de conexión
-      this.connection.on('error', (err) => {
-        console.error('Error de conexión:', err.message);
-        this.isConnected = false;
-        if (err.code === 'PROTOCOL_CONNECTION_LOST') {
-          console.log('Conexión perdida, necesita reconectar...');
-        }
-      });
-    });
-  }
-
-  // Método para ejecutar consultas
-  query(sql, params = []) {
-    return new Promise((resolve, reject) => {
-      if (!this.isConnected || !this.connection) {
-        reject(new Error('No hay conexión activa a la base de datos'));
-        return;
-      }
-
-      this.connection.query(sql, params, (err, results, fields) => {
-        if (err) {
-          console.error('Error ejecutando la consulta:', err.message);
-          reject(err);
-          return;
-        }
-        
-        resolve({
-          results: results,
-          fields: fields,
-          rowCount: results.length
-        });
-      });
-    });
-  }
-
-  // Método para ejecutar consultas con async/await
-  async executeQuery(sql, params = []) {
-    try {
-      if (!this.isConnected) {
-        await this.connect();
-      }
-      
-      const result = await this.query(sql, params);
-      return result;
-    } catch (error) {
-      throw error;
-    }
-  }
-
-  // Método para cerrar la conexión
-  close() {
-    return new Promise((resolve, reject) => {
-      if (this.connection && this.isConnected) {
-        this.connection.end((err) => {
-          if (err) {
-            console.error('Error cerrando la conexión:', err.message);
-            reject(err);
-            return;
-          }
-          
-          console.log('Conexión cerrada correctamente.');
-          this.isConnected = false;
-          this.connection = null;
-          resolve();
-        });
-      } else {
-        console.log('No hay conexión activa para cerrar.');
-        resolve();
-      }
-    });
-  }
-
-  // Método para verificar el estado de la conexión
-  getConnectionStatus() {
-    return {
-      isConnected: this.isConnected,
-      threadId: this.connection ? this.connection.threadId : null,
-      config: {
-        host: this.config.host,
-        port: this.config.port,
-        database: this.config.database,
-        user: this.config.user
-      }
-    };
-  }
+if (!connectionString) {
+  throw new Error(
+    'DATABASE_URL no está definida en las variables de entorno. ' +
+    'Verifica el archivo .env'
+  )
 }
 
-// Exportar la clase
-module.exports = DatabaseConnection; 
+// Crear instancia de conexión PostgreSQL
+const sql = postgres(connectionString, {
+  // Opciones de configuración para Supabase
+  ssl: 'require', // Supabase requiere SSL
+  max: 20, // Pool de conexiones máximo
+  idle_timeout: 30, // Timeout de inactividad en segundos
+  connect_timeout: 10, // Timeout de conexión en segundos
+})
+
+// Log de inicialización en desarrollo
+if (process.env.NODE_ENV !== 'production') {
+  console.log('✓ Conexión PostgreSQL configurada correctamente')
+  console.log(
+    `  Host: ${process.env.DB_HOST}`
+  )
+  console.log(
+    `  Base de datos: ${process.env.DB_NAME}`
+  )
+}
+
+module.exports = sql

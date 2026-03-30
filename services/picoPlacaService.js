@@ -1,42 +1,78 @@
+const sql = require('../config/db.js');
 const PicoPlaca = require('../models/PicoPlaca');
 
 class PicoPlacaService {
-    constructor() {
-        this.picoPlacas = [];
-    }
-
     async crearPicoPlaca(datos) {
-        const nuevoPicoPlaca = new PicoPlaca(
-            datos.id,
-            datos.tipoVehiculo,
-            datos.numero,
-            datos.dia
-        );
-        this.picoPlacas.push(nuevoPicoPlaca);
-        return nuevoPicoPlaca;
+        try {
+            const { id, tipoVehiculo, numero, dia } = datos;
+            
+            const result = await sql`
+                INSERT INTO pico_placa (id, tipo_vehiculo, numero, dia)
+                VALUES (${id}, ${tipoVehiculo}, ${numero}, ${dia})
+                RETURNING *
+            `;
+            
+            const row = result[0];
+            return new PicoPlaca(row.id, row.tipo_vehiculo, row.numero, row.dia);
+        } catch (error) {
+            throw new Error(`Error al crear pico y placa: ${error.message}`);
+        }
     }
 
     async obtenerPicoPlacas() {
-        if (this.picoPlacas.length === 0) {
-            throw new Error('No hay registros de pico y placa disponible.'); 
+        try {
+            const result = await sql`SELECT * FROM pico_placa`;
+            
+            if (result.length === 0) {
+                throw new Error('No hay registros de pico y placa disponible.');
+            }
+            
+            return result.map(row => 
+                new PicoPlaca(row.id, row.tipo_vehiculo, row.numero, row.dia)
+            );
+        } catch (error) {
+            throw new Error(`Error al obtener pico y placa: ${error.message}`);
         }
-        return this.picoPlacas;
     }
 
     async obtenerPicoPlacaPorId(id) {
-        const picoPlaca = this.picoPlacas.find(p => p.getId() === id);
-        if (!picoPlaca) throw new Error('Registro no encontrado.');
-        picoPlacaFound = new PicoPlaca(picoPlaca.getId(), picoPlaca.getTipoVehiculo(), picoPlaca.getNumero(), picoPlaca.getDia());
-        return picoPlacaFound;
+        try {
+            const result = await sql`SELECT * FROM pico_placa WHERE id = ${id}`;
+            
+            if (result.length === 0) {
+                throw new Error('Registro no encontrado.');
+            }
+            
+            const row = result[0];
+            return new PicoPlaca(row.id, row.tipo_vehiculo, row.numero, row.dia);
+        } catch (error) {
+            throw new Error(`Error al obtener pico y placa por ID: ${error.message}`);
+        }
     }
 
     async actualizarPicoPlaca(id, datosActualizados) {
-        return { message: "Pico y Placa actualizado correctamente." };
+        try {
+            const { tipoVehiculo, numero, dia } = datosActualizados;
+            
+            await sql`
+                UPDATE pico_placa
+                SET tipo_vehiculo = ${tipoVehiculo}, numero = ${numero}, dia = ${dia}
+                WHERE id = ${id}
+            `;
+            
+            return { message: "Pico y Placa actualizado correctamente." };
+        } catch (error) {
+            throw new Error(`Error al actualizar pico y placa: ${error.message}`);
         }
+    }
 
     async eliminarPicoPlaca(id) {
-        this.picoPlacas = this.picoPlacas.filter(p => p.getId() !== id);
-        return { message: "Pico y Placa eliminado con exito." };
+        try {
+            await sql`DELETE FROM pico_placa WHERE id = ${id}`;
+            return { message: "Pico y Placa eliminado con exito." };
+        } catch (error) {
+            throw new Error(`Error al eliminar pico y placa: ${error.message}`);
+        }
     }
 }
 
