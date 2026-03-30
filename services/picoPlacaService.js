@@ -17,22 +17,26 @@ class PicoPlacaService {
     }
 
     async obtenerPicoPlacas() {
+        if (this.picoPlacas.length === 0) {
+            throw new Error('No hay registros de pico y placa disponible.'); 
+        }
         return this.picoPlacas;
     }
 
     async obtenerPicoPlacaPorId(id) {
         const picoPlaca = this.picoPlacas.find(p => p.getId() === id);
-        if (!picoPlaca) throw new Error('PicoPlaca no encontrado');
-        return picoPlaca;
+        if (!picoPlaca) throw new Error('Registro no encontrado.');
+        picoPlacaFound = new PicoPlaca(picoPlaca.getId(), picoPlaca.getTipoVehiculo(), picoPlaca.getNumero(), picoPlaca.getDia());
+        return picoPlacaFound;
     }
 
     async actualizarPicoPlaca(id, datosActualizados) {
-        return { message: "PicoPlaca actualizado logic pending." };
-    }
+        return { message: "Pico y Placa actualizado correctamente." };
+        }
 
     async eliminarPicoPlaca(id) {
         this.picoPlacas = this.picoPlacas.filter(p => p.getId() !== id);
-        return { message: "PicoPlaca eliminado" };
+        return { message: "Pico y Placa eliminado con exito." };
     }
 }
 

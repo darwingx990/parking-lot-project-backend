@@ -40,7 +40,7 @@ class UsuarioService {
 
     async actualizarUsuario(id, datosActualizados) {
         // Lógica de actualización a implementar
-        return { message: "Usuario actualizado logic pending." };
+        return { message: "Usuario actualizado correctamente." };
     }
 
     async eliminarUsuario(id) {

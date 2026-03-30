@@ -1,14 +1,19 @@
-const mysql = require('mysql2');
+import postgres from 'postgres'
+
+const connectionString = process.env.DATABASE_URL
+const sql = postgres(connectionString)
+
+export default sql
 
 class DatabaseConnection {
   constructor() {
     // Configuración de la conexión basada en app.js
     this.config = {
-      host: 'localhost',
-      port: '8889',
-      user: 'root',
-      password: '',
-      database: 'parking_lot_project'
+      host: process.env.DB_HOST,
+      port: process.env.DB_PORT,
+      user: process.env.DB_USER,
+      password: process.env.DB_PASSWORD,
+      database: process.env.DB_NAME
     };
     
     this.connection = null;
