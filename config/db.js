@@ -1,33 +1,25 @@
 const postgres = require('postgres')
 
-// Obtener CONNECTION STRING desde variables de entorno
 const connectionString = process.env.DATABASE_URL
 
 if (!connectionString) {
-  throw new Error(
-    'DATABASE_URL no está definida en las variables de entorno. ' +
-    'Verifica el archivo .env'
-  )
+  throw new Error('DATABASE_URL no está definida en las variables de entorno.')
 }
 
-// Crear instancia de conexión PostgreSQL
 const sql = postgres(connectionString, {
-  // Opciones de configuración para Supabase
-  ssl: 'require', // Supabase requiere SSL
-  max: 20, // Pool de conexiones máximo
-  idle_timeout: 30, // Timeout de inactividad en segundos
-  connect_timeout: 10, // Timeout de conexión en segundos
+  ssl: {
+    rejectUnauthorized: false
+  },
+  max: 10,
+  idle_timeout: 20,
+  connect_timeout: 30,
+  keep_alive: true,
+  debug: process.env.NODE_ENV !== 'production' ? console.log : false,
 })
 
-// Log de inicialización en desarrollo
-if (process.env.NODE_ENV !== 'production') {
-  console.log('✓ Conexión PostgreSQL configurada correctamente')
-  console.log(
-    `  Host: ${process.env.DB_HOST}`
-  )
-  console.log(
-    `  Base de datos: ${process.env.DB_NAME}`
-  )
-}
+console.log('✓ Intentando conectar a PostgreSQL...')
+console.log(`  Host: aws-0-us-west-2.pooler.supabase.com`)
+console.log(`  Puerto: 5432`)
+console.log(`  Base de datos: postgres`)
 
 module.exports = sql
