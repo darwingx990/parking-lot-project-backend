@@ -85,7 +85,7 @@ class PicoPlacaService {
                 throw new Error('Registro no encontrado para actualizar.');
             }
             
-            return { message: "Pico y Placa actualizado correctamente." };
+            return { message: "Pico y Placa actualizado correctamente. ", datos: datosActualizados };
         } catch (error) {
             console.error('Error en actualizarPicoPlaca:', error);
             if (error.code === 'ECONNREFUSED' || error.code === 'ETIMEDOUT') {

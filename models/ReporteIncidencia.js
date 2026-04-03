@@ -1,29 +1,27 @@
 class ReporteIncidencia {
-    #incidencia;
-    #vehiculo;
-    #fechaIncidencia;
+    #vehiculoId;
+    #incidenciaId;
+    #fechaHora;
 
-    constructor(incidencia, vehiculo, fechaIncidencia) {
-        this.#incidencia = incidencia;
-        this.#vehiculo = vehiculo;
-        this.#fechaIncidencia = fechaIncidencia;
+    constructor(vehiculoId, incidenciaId, fechaHora) {
+        this.#vehiculoId = vehiculoId;
+        this.#incidenciaId = incidenciaId;
+        this.#fechaHora = fechaHora;
     }
 
-    // Getters
-    getIncidencia() { return this.#incidencia; }
-    getVehiculo() { return this.#vehiculo; }
-    getFechaIncidencia() { return this.#fechaIncidencia; }
+    getVehiculoId() { return this.#vehiculoId; }
+    getIncidenciaId() { return this.#incidenciaId; }
+    getFechaHora() { return this.#fechaHora; }
 
-    // Setters
-    setIncidencia(incidencia) { this.#incidencia = incidencia; }
-    setVehiculo(vehiculo) { this.#vehiculo = vehiculo; }
-    setFechaIncidencia(fecha) { this.#fechaIncidencia = fecha; }
+    setVehiculoId(vehiculoId) { this.#vehiculoId = vehiculoId; }
+    setIncidenciaId(incidenciaId) { this.#incidenciaId = incidenciaId; }
+    setFechaHora(fechaHora) { this.#fechaHora = fechaHora; }
 
     toJSON() {
         return {
-            incidencia: this.#incidencia,
-            vehiculo: this.#vehiculo,
-            fechaIncidencia: this.#fechaIncidencia
+            vehiculoId: this.#vehiculoId,
+            incidenciaId: this.#incidenciaId,
+            fechaHora: this.#fechaHora
         };
     }
 }

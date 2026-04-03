@@ -1,38 +1,154 @@
+const sql = require('../config/db.js');
 const ReporteIncidencia = require('../models/ReporteIncidencia');
 
 class ReporteIncidenciaService {
-    constructor() {
-        this.reportes = [];
-    }
-
     async crearReporteIncidencia(datos) {
-        const nuevoReporte = new ReporteIncidencia(
-            datos.incidencia,
-            datos.vehiculo,
-            datos.fechaIncidencia
-        );
-        this.reportes.push(nuevoReporte);
-        return nuevoReporte;
+        try {
+            const { vehiculoId, incidenciaId, fechaHora } = datos;
+            
+            if (!vehiculoId || !incidenciaId) {
+                throw new Error('Los campos vehiculoId e incidenciaId son obligatorios.');
+            }
+            
+            const result = await sql`
+                INSERT INTO "REPORTE_INCIDENCIA" (vehiculo_id, incidencia_id, fecha_hora)
+                VALUES (${vehiculoId}, ${incidenciaId}, ${fechaHora || new Date()})
+                RETURNING *
+            `;
+            
+            if (!result || result.length === 0) {
+                throw new Error('No se pudo crear el reporte.');
+            }
+            
+            const row = result[0];
+            return new ReporteIncidencia(row.vehiculo_id, row.incidencia_id, row.fecha_hora);
+        } catch (error) {
+            console.error('Error en crearReporteIncidencia:', error);
+            if (error.code === 'ECONNREFUSED' || error.code === 'ETIMEDOUT') {
+                throw new Error('No se puede conectar a la base de datos. Verifica la conexión.');
+            }
+            throw new Error(`Error al crear reporte de incidencia: ${error.message}`);
+        }
     }
 
     async obtenerReportesIncidencia() {
-        return this.reportes;
+        try {
+            const result = await sql`
+                SELECT ri.*, v.placa as vehiculo_placa, i.nombre as incidencia_nombre
+                FROM "REPORTE_INCIDENCIA" ri
+                JOIN "VEHICULO" v ON ri.vehiculo_id = v.id
+                JOIN "INCIDENCIA" i ON ri.incidencia_id = i.id
+                ORDER BY ri.fecha_hora DESC
+            `;
+            
+            return result.map(row => ({
+                vehiculoId: row.vehiculo_id,
+                vehiculoPlaca: row.vehiculo_placa,
+                incidenciaId: row.incidencia_id,
+                incidenciaNombre: row.incidencia_nombre,
+                fechaHora: row.fecha_hora
+            }));
+        } catch (error) {
+            console.error('Error en obtenerReportesIncidencia:', error);
+            if (error.code === 'ECONNREFUSED' || error.code === 'ETIMEDOUT') {
+                throw new Error('No se puede conectar a la base de datos. Verifica la conexión.');
+            }
+            throw new Error(`Error al obtener reportes de incidencia: ${error.message}`);
+        }
     }
 
-    /* Since ReporteIncidencia doesn't have an explicit ID in the current diagram, 
-       we might need a different way to find/update/delete, or assume an ID index 
-       for now as placeholders if they were to get an ID later */
+    async obtenerReportePorId(vehiculoId, incidenciaId) {
+        try {
+            const result = await sql`
+                SELECT * FROM "REPORTE_INCIDENCIA" 
+                WHERE vehiculo_id = ${vehiculoId} AND incidencia_id = ${incidenciaId}
+            `;
+            
+            if (result.length === 0) {
+                throw new Error('Reporte no encontrado.');
+            }
+            
+            const row = result[0];
+            return new ReporteIncidencia(row.vehiculo_id, row.incidencia_id, row.fecha_hora);
+        } catch (error) {
+            console.error('Error en obtenerReportePorId:', error);
+            if (error.code === 'ECONNREFUSED' || error.code === 'ETIMEDOUT') {
+                throw new Error('No se puede conectar a la base de datos. Verifica la conexión.');
+            }
+            throw new Error(`Error al obtener reporte de incidencia por ID: ${error.message}`);
+        }
+    }
 
     async obtenerReportesPorVehiculo(vehiculoId) {
-        return this.reportes.filter(r => r.getVehiculo() === vehiculoId);
+        try {
+            const result = await sql`
+                SELECT ri.*, i.nombre as incidencia_nombre
+                FROM "REPORTE_INCIDENCIA" ri
+                JOIN "INCIDENCIA" i ON ri.incidencia_id = i.id
+                WHERE ri.vehiculo_id = ${vehiculoId}
+                ORDER BY ri.fecha_hora DESC
+            `;
+            
+            return result.map(row => ({
+                vehiculoId: row.vehiculo_id,
+                incidenciaId: row.incidencia_id,
+                incidenciaNombre: row.incidencia_nombre,
+                fechaHora: row.fecha_hora
+            }));
+        } catch (error) {
+            console.error('Error en obtenerReportesPorVehiculo:', error);
+            if (error.code === 'ECONNREFUSED' || error.code === 'ETIMEDOUT') {
+                throw new Error('No se puede conectar a la base de datos. Verifica la conexión.');
+            }
+            throw new Error(`Error al obtener reportes por vehículo: ${error.message}`);
+        }
     }
 
-    async actualizarReporteIncidencia(id, datosActualizados) {
-        return { message: "ReporteIncidencia actualizado logic pending." };
+    async actualizarReporteIncidencia(vehiculoId, incidenciaId, datosActualizados) {
+        try {
+            const { fechaHora } = datosActualizados;
+            
+            const result = await sql`
+                UPDATE "REPORTE_INCIDENCIA"
+                SET fecha_hora = ${fechaHora || new Date()}
+                WHERE vehiculo_id = ${vehiculoId} AND incidencia_id = ${incidenciaId}
+                RETURNING vehiculo_id, incidencia_id
+            `;
+            
+            if (!result || result.length === 0) {
+                throw new Error('Reporte no encontrado para actualizar.');
+            }
+            
+            return { message: "Reporte de incidencia actualizado correctamente.", datos: datosActualizados };
+        } catch (error) {
+            console.error('Error en actualizarReporteIncidencia:', error);
+            if (error.code === 'ECONNREFUSED' || error.code === 'ETIMEDOUT') {
+                throw new Error('No se puede conectar a la base de datos. Verifica la conexión.');
+            }
+            throw new Error(`Error al actualizar reporte de incidencia: ${error.message}`);
+        }
     }
 
-    async eliminarReporteIncidencia(id) {
-        return { message: "ReporteIncidencia eliminado logic pending." };
+    async eliminarReporteIncidencia(vehiculoId, incidenciaId) {
+        try {
+            const result = await sql`
+                DELETE FROM "REPORTE_INCIDENCIA" 
+                WHERE vehiculo_id = ${vehiculoId} AND incidencia_id = ${incidenciaId}
+                RETURNING vehiculo_id, incidencia_id
+            `;
+            
+            if (!result || result.length === 0) {
+                throw new Error('Reporte no encontrado para eliminar.');
+            }
+            
+            return { message: "Reporte de incidencia eliminado con éxito." };
+        } catch (error) {
+            console.error('Error en eliminarReporteIncidencia:', error);
+            if (error.code === 'ECONNREFUSED' || error.code === 'ETIMEDOUT') {
+                throw new Error('No se puede conectar a la base de datos. Verifica la conexión.');
+            }
+            throw new Error(`Error al eliminar reporte de incidencia: ${error.message}`);
+        }
     }
 }
 
