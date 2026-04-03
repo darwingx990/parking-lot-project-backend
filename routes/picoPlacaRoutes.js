@@ -2,17 +2,15 @@ const express = require('express');
 const router = express.Router();
 const picoPlacaService = require('../services/picoPlacaService');
 
-// POST /api/picoplacas
 router.post('/', async (req, res) => {
     try {
         const nuevoPicoPlaca = await picoPlacaService.crearPicoPlaca(req.body);
-        res.status(201).json({ message: 'Pico y Placa creado exitosamente', picoPlaca: nuevoPicoPlaca.toJSON() });
+        res.status(201).json({ message: 'Pico y placa creado exitosamente', picoPlaca: nuevoPicoPlaca.toJSON() });
     } catch (error) {
         res.status(400).json({ error: error.message });
     }
 });
 
-// GET /api/picoplacas
 router.get('/', async (req, res) => {
     try {
         const picoPlacas = await picoPlacaService.obtenerPicoPlacas();
@@ -22,33 +20,27 @@ router.get('/', async (req, res) => {
     }
 });
 
-// GET /api/picoplacas/:id
 router.get('/:id', async (req, res) => {
     try {
-        const id = req.params.id;
-        const picoPlaca = await picoPlacaService.obtenerPicoPlacaPorId(id);
+        const picoPlaca = await picoPlacaService.obtenerPicoPlacaPorId(req.params.id);
         res.status(200).json(picoPlaca.toJSON());
     } catch (error) {
         res.status(404).json({ error: error.message });
     }
 });
 
-// PUT /api/picoplacas/:id
 router.put('/:id', async (req, res) => {
     try {
-        const id = req.params.id;
-        const resultado = await picoPlacaService.actualizarPicoPlaca(id, req.body);
+        const resultado = await picoPlacaService.actualizarPicoPlaca(req.params.id, req.body);
         res.status(200).json(resultado);
     } catch (error) {
         res.status(400).json({ error: error.message });
     }
 });
 
-// DELETE /api/picoplacas/:id
 router.delete('/:id', async (req, res) => {
     try {
-        const id = req.params.id;
-        const resultado = await picoPlacaService.eliminarPicoPlaca(id);
+        const resultado = await picoPlacaService.eliminarPicoPlaca(req.params.id);
         res.status(200).json(resultado);
     } catch (error) {
         res.status(400).json({ error: error.message });

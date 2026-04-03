@@ -2,53 +2,45 @@ const express = require('express');
 const router = express.Router();
 const operadorService = require('../services/operadorService');
 
-// POST /api/operadores
 router.post('/', async (req, res) => {
     try {
         const nuevoOperador = await operadorService.crearOperador(req.body);
-        res.status(201).json({ message: 'Operador creado exitosamente', operador: nuevoOperador.toJSON() });
+        res.status(201).json({ message: 'Operador creado exitosamente', operador: nuevoOperador.toJSON ? nuevoOperador.toJSON() : nuevoOperador });
     } catch (error) {
         res.status(400).json({ error: error.message });
     }
 });
 
-// GET /api/operadores
 router.get('/', async (req, res) => {
     try {
         const operadores = await operadorService.obtenerOperadores();
-        res.status(200).json(operadores.map(o => o.toJSON()));
+        res.status(200).json(operadores.map(o => o.toJSON ? o.toJSON() : o));
     } catch (error) {
         res.status(500).json({ error: error.message });
     }
 });
 
-// GET /api/operadores/:id
 router.get('/:id', async (req, res) => {
     try {
-        const id = req.params.id;
-        const operador = await operadorService.obtenerOperadorPorId(id);
-        res.status(200).json(operador.toJSON());
+        const operador = await operadorService.obtenerOperadorPorId(req.params.id);
+        res.status(200).json(operador.toJSON ? operador.toJSON() : operador);
     } catch (error) {
         res.status(404).json({ error: error.message });
     }
 });
 
-// PUT /api/operadores/:id
 router.put('/:id', async (req, res) => {
     try {
-        const id = req.params.id;
-        const resultado = await operadorService.actualizarOperador(id, req.body);
+        const resultado = await operadorService.actualizarOperador(req.params.id, req.body);
         res.status(200).json(resultado);
     } catch (error) {
         res.status(400).json({ error: error.message });
     }
 });
 
-// DELETE /api/operadores/:id
 router.delete('/:id', async (req, res) => {
     try {
-        const id = req.params.id;
-        const resultado = await operadorService.eliminarOperador(id);
+        const resultado = await operadorService.eliminarOperador(req.params.id);
         res.status(200).json(resultado);
     } catch (error) {
         res.status(400).json({ error: error.message });
