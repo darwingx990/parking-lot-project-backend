@@ -3,35 +3,31 @@ class AccesoSalidas {
     #movimiento;
     #fechaHora;
     #puerta;
-    #tiempo_estadia;
-    #vehiculo;
+    #tiempoEstadia;
+    #vehiculoId;
 
-    constructor(id, movimiento, fechaHora, puerta, tiempo_estadia, vehiculo) {
+    constructor(id, movimiento, fechaHora, puerta, tiempoEstadia, vehiculoId) {
         this.#id = id;
         this.#movimiento = movimiento;
         this.#fechaHora = fechaHora;
         this.#puerta = puerta;
-        this.#tiempo_estadia = tiempo_estadia;
-        this.#vehiculo = vehiculo;
+        this.#tiempoEstadia = tiempoEstadia;
+        this.#vehiculoId = vehiculoId;
     }
-
-    // Getters
 
     getId() { return this.#id; }
     getMovimiento() { return this.#movimiento; }
     getFechaHora() { return this.#fechaHora; }
     getPuerta() { return this.#puerta; }
-    getTiempoEstadia() { return this.#tiempo_estadia; }
-    getVehiculo() { return this.#vehiculo; }
-
-    // Setters
+    getTiempoEstadia() { return this.#tiempoEstadia; }
+    getVehiculoId() { return this.#vehiculoId; }
 
     setId(id) { this.#id = id; }
     setMovimiento(movimiento) { this.#movimiento = movimiento; }
-    setFechaHora(fechaHora) { this.#fechaHora = fechaHora; }    
+    setFechaHora(fechaHora) { this.#fechaHora = fechaHora; }
     setPuerta(puerta) { this.#puerta = puerta; }
-    setTiempoEstadia(tiempo_estadia) { this.#tiempo_estadia = tiempo_estadia; }
-    setVehiculo(vehiculo) { this.#vehiculo = vehiculo; }
+    setTiempoEstadia(tiempoEstadia) { this.#tiempoEstadia = tiempoEstadia; }
+    setVehiculoId(vehiculoId) { this.#vehiculoId = vehiculoId; }
 
     toJSON() {
         return {
@@ -39,8 +35,8 @@ class AccesoSalidas {
             movimiento: this.#movimiento,
             fechaHora: this.#fechaHora,
             puerta: this.#puerta,
-            tiempo_estadia: this.#tiempo_estadia,
-            vehiculo: this.#vehiculo
+            tiempoEstadia: this.#tiempoEstadia,
+            vehiculoId: this.#vehiculoId
         };
     }
 }

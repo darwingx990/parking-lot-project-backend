@@ -25,7 +25,6 @@ class Usuario {
         this.#estado = estado;
     }
 
-    // Getters
     getId() { return this.#id; }
     getTipoDocumento() { return this.#tipoDocumento; }
     getNumeroDocumento() { return this.#numeroDocumento; }
@@ -38,7 +37,6 @@ class Usuario {
     getFotoPerfil() { return this.#fotoPerfil; }
     getEstado() { return this.#estado; }
 
-    // Setters
     setId(id) { this.#id = id; }
     setTipoDocumento(tipoDocumento) { this.#tipoDocumento = tipoDocumento; }
     setNumeroDocumento(numeroDocumento) { this.#numeroDocumento = numeroDocumento; }

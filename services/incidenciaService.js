@@ -1,72 +1,135 @@
-const Incidencia = require('../models/incidencia');
+const sql = require('../config/db.js');
 
 class IncidenciaService {
-    constructor() {
-        this.incidencia = [];
-    }
-
-    validarDatosIncidencia(datos) {
-        if (!datos.vehiculo) {
-            throw new Error('El vehículo es obligatorio');
-        }
-        if (!datos.fecha) {
-            throw new Error('La fecha es obligatoria');
-        }
-        if (!datos.hora) {
-            throw new Error('La hora es obligatoria');
-        }
-        if (!datos.tipoIncidencia || !Incidencia.TIPOS_INCIDENCIA.includes(datos.tipoIncidencia)) {
-            throw new Error(`El tipo de incidencia es inválido. Debe ser uno de: ${Incidencia.TIPOS_INCIDENCIA.join(', ')}`);
-        }
-        return true;
-    }
-
     async crearIncidencia(datos) {
-        this.validarDatosIncidencia(datos);
-        
-        const nuevaIncidencia = new Incidencia(
-            datos.vehiculo,
-            datos.fecha,
-            datos.hora,
-            datos.tipoIncidencia
-        );
-        this.incidencia.push(nuevaIncidencia);
-        return nuevaIncidencia;
+        try {
+            const { nombre } = datos;
+            
+            if (!nombre) {
+                throw new Error('El campo nombre es obligatorio.');
+            }
+            
+            const result = await sql`
+                INSERT INTO "INCIDENCIA" (nombre)
+                VALUES (${nombre})
+                RETURNING *
+            `;
+            
+            if (!result || result.length === 0) {
+                throw new Error('No se pudo crear la incidencia.');
+            }
+            
+            const row = result[0];
+            return { id: row.id, nombre: row.nombre };
+        } catch (error) {
+            console.error('Error en crearIncidencia:', error);
+            if (error.code === 'ECONNREFUSED' || error.code === 'ETIMEDOUT') {
+                throw new Error('No se puede conectar a la base de datos. Verifica la conexión.');
+            }
+            throw new Error(`Error al crear incidencia: ${error.message}`);
+        }
     }
 
     async obtenerIncidencias() {
-        return this.incidencia;
-    }
-
-    async obtenerIncidenciaPorCodigo(codigo) {
-        const incidencia = this.incidencia.find(i => i.getCodigo() === codigo);
-        if (!incidencia) throw new Error('Incidencia no encontrada');
-        return incidencia;
-    }
-
-    async actualizarIncidencia(codigo, datosActualizados) {
-        const incidencia = this.incidencia.find(i => i.getCodigo() === codigo);
-        if (!incidencia) throw new Error('Incidencia no encontrada');
-
-        if (datosActualizados.vehiculo) incidencia.setVehiculo(datosActualizados.vehiculo);
-        if (datosActualizados.fecha) incidencia.setFecha(datosActualizados.fecha);
-        if (datosActualizados.hora) incidencia.setHora(datosActualizados.hora);
-        if (datosActualizados.tipoIncidencia) {
-            if (!Incidencia.TIPOS_INCIDENCIA.includes(datosActualizados.tipoIncidencia)) {
-                throw new Error(`El tipo de incidencia es inválido. Debe ser uno de: ${Incidencia.TIPOS_INCIDENCIA.join(', ')}`);
+        try {
+            const result = await sql`SELECT * FROM "INCIDENCIA" ORDER BY id`;
+            
+            return result.map(row => ({
+                id: row.id,
+                nombre: row.nombre
+            }));
+        } catch (error) {
+            console.error('Error en obtenerIncidencias:', error);
+            if (error.code === 'ECONNREFUSED' || error.code === 'ETIMEDOUT') {
+                throw new Error('No se puede conectar a la base de datos. Verifica la conexión.');
             }
-            incidencia.setTipoIncidencia(datosActualizados.tipoIncidencia);
+            throw new Error(`Error al obtener incidencias: ${error.message}`);
         }
-
-        return { message: 'Incidencia actualizada', incidencia: incidencia.toJSON() };
     }
 
-    async eliminarIncidencia(codigo) {
-        const index = this.incidencia.findIndex(i => i.getCodigo() === codigo);
-        if (index === -1) throw new Error('Incidencia no encontrada');
-        
-        this.incidencia.splice(index, 1);
-        return { message: 'Incidencia eliminada' };
+    async obtenerIncidenciaPorId(id) {
+        try {
+            const result = await sql`SELECT * FROM "INCIDENCIA" WHERE id = ${id}`;
+            
+            if (result.length === 0) {
+                throw new Error('Incidencia no encontrada.');
+            }
+            
+            const row = result[0];
+            return { id: row.id, nombre: row.nombre };
+        } catch (error) {
+            console.error('Error en obtenerIncidenciaPorId:', error);
+            if (error.code === 'ECONNREFUSED' || error.code === 'ETIMEDOUT') {
+                throw new Error('No se puede conectar a la base de datos. Verifica la conexión.');
+            }
+            throw new Error(`Error al obtener incidencia por ID: ${error.message}`);
+        }
+    }
+
+    async obtenerIncidenciaPorNombre(nombre) {
+        try {
+            const result = await sql`SELECT * FROM "INCIDENCIA" WHERE nombre ILIKE ${'%' + nombre + '%'}`;
+            
+            if (result.length === 0) {
+                throw new Error('Incidencia no encontrada.');
+            }
+            
+            const row = result[0];
+            return { id: row.id, nombre: row.nombre };
+        } catch (error) {
+            console.error('Error en obtenerIncidenciaPorNombre:', error);
+            if (error.code === 'ECONNREFUSED' || error.code === 'ETIMEDOUT') {
+                throw new Error('No se puede conectar a la base de datos. Verifica la conexión.');
+            }
+            throw new Error(`Error al obtener incidencia por nombre: ${error.message}`);
+        }
+    }
+
+    async actualizarIncidencia(id, datosActualizados) {
+        try {
+            const { nombre } = datosActualizados;
+            
+            if (!nombre) {
+                throw new Error('El campo nombre es obligatorio.');
+            }
+            
+            const result = await sql`
+                UPDATE "INCIDENCIA"
+                SET nombre = ${nombre}
+                WHERE id = ${id}
+                RETURNING id
+            `;
+            
+            if (!result || result.length === 0) {
+                throw new Error('Incidencia no encontrada para actualizar.');
+            }
+            
+            return { message: "Incidencia actualizada correctamente.", datos: datosActualizados };
+        } catch (error) {
+            console.error('Error en actualizarIncidencia:', error);
+            if (error.code === 'ECONNREFUSED' || error.code === 'ETIMEDOUT') {
+                throw new Error('No se puede conectar a la base de datos. Verifica la conexión.');
+            }
+            throw new Error(`Error al actualizar incidencia: ${error.message}`);
+        }
+    }
+
+    async eliminarIncidencia(id) {
+        try {
+            const result = await sql`DELETE FROM "INCIDENCIA" WHERE id = ${id} RETURNING id`;
+            
+            if (!result || result.length === 0) {
+                throw new Error('Incidencia no encontrada para eliminar.');
+            }
+            
+            return { message: "Incidencia eliminada con éxito." };
+        } catch (error) {
+            console.error('Error en eliminarIncidencia:', error);
+            if (error.code === 'ECONNREFUSED' || error.code === 'ETIMEDOUT') {
+                throw new Error('No se puede conectar a la base de datos. Verifica la conexión.');
+            }
+            throw new Error(`Error al eliminar incidencia: ${error.message}`);
+        }
     }
 }
 

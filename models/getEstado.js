@@ -1,4 +1,3 @@
-// Clase getEstado
 class GetEstado {
     #id;
     #tipo;
@@ -10,12 +9,10 @@ class GetEstado {
         this.#estado = estado;
     }
 
-    // Getters
     getId() { return this.#id; }
     getTipo() { return this.#tipo; }
     getEstado() { return this.#estado; }
 
-    // Setters
     setId(id) { this.#id = id; }
     setTipo(tipo) { this.#tipo = tipo; }
     setEstado(estado) { this.#estado = estado; }

@@ -1,32 +1,26 @@
-// Clase HistorialParqueo
-const GetEstado = require('./GetEstado'); // Importa la clase GetEstado
-const Vehiculo = require('./Vehiculo');   // Asumiendo que ya tienes la clase Vehiculo
-
 class HistorialParqueo {
-    #celda;     // instancia de GetEstado
-    #vehiculo;  // instancia de Vehiculo
+    #celdaId;
+    #vehiculoId;
     #fechaHora;
 
-    constructor(celda, vehiculo, fechaHora) {
-        this.#celda = celda;
-        this.#vehiculo = vehiculo;
+    constructor(celdaId, vehiculoId, fechaHora) {
+        this.#celdaId = celdaId;
+        this.#vehiculoId = vehiculoId;
         this.#fechaHora = fechaHora;
     }
 
-    // Getters
-    getCelda() { return this.#celda; }
-    getVehiculo() { return this.#vehiculo; }
+    getCeldaId() { return this.#celdaId; }
+    getVehiculoId() { return this.#vehiculoId; }
     getFechaHora() { return this.#fechaHora; }
 
-    // Setters
-    setCelda(celda) { this.#celda = celda; }
-    setVehiculo(vehiculo) { this.#vehiculo = vehiculo; }
+    setCeldaId(celdaId) { this.#celdaId = celdaId; }
+    setVehiculoId(vehiculoId) { this.#vehiculoId = vehiculoId; }
     setFechaHora(fechaHora) { this.#fechaHora = fechaHora; }
 
     toJSON() {
         return {
-            celda: this.#celda ? this.#celda.toJSON() : null,
-            vehiculo: this.#vehiculo ? this.#vehiculo.toJSON() : null,
+            celdaId: this.#celdaId,
+            vehiculoId: this.#vehiculoId,
             fechaHora: this.#fechaHora
         };
     }

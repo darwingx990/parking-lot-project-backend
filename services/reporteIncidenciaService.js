@@ -1,5 +1,4 @@
 const sql = require('../config/db.js');
-const ReporteIncidencia = require('../models/ReporteIncidencia');
 
 class ReporteIncidenciaService {
     async crearReporteIncidencia(datos) {
@@ -11,7 +10,7 @@ class ReporteIncidenciaService {
             }
             
             const result = await sql`
-                INSERT INTO "REPORTE_INCIDENCIA" (vehiculo_id, incidencia_id, fecha_hora)
+                INSERT INTO "REPORTE_INCIDENCIA" ("VEHICULO_id", "INCIDENCIA_id", fecha_hora)
                 VALUES (${vehiculoId}, ${incidenciaId}, ${fechaHora || new Date()})
                 RETURNING *
             `;
@@ -21,7 +20,11 @@ class ReporteIncidenciaService {
             }
             
             const row = result[0];
-            return new ReporteIncidencia(row.vehiculo_id, row.incidencia_id, row.fecha_hora);
+            return {
+                vehiculoId: row.VEHICULO_id,
+                incidenciaId: row.INCIDENCIA_id,
+                fechaHora: row.fecha_hora
+            };
         } catch (error) {
             console.error('Error en crearReporteIncidencia:', error);
             if (error.code === 'ECONNREFUSED' || error.code === 'ETIMEDOUT') {
@@ -36,15 +39,15 @@ class ReporteIncidenciaService {
             const result = await sql`
                 SELECT ri.*, v.placa as vehiculo_placa, i.nombre as incidencia_nombre
                 FROM "REPORTE_INCIDENCIA" ri
-                JOIN "VEHICULO" v ON ri.vehiculo_id = v.id
-                JOIN "INCIDENCIA" i ON ri.incidencia_id = i.id
+                JOIN "VEHICULO" v ON ri."VEHICULO_id" = v.id
+                JOIN "INCIDENCIA" i ON ri."INCIDENCIA_id" = i.id
                 ORDER BY ri.fecha_hora DESC
             `;
             
             return result.map(row => ({
-                vehiculoId: row.vehiculo_id,
+                vehiculoId: row.VEHICULO_id,
                 vehiculoPlaca: row.vehiculo_placa,
-                incidenciaId: row.incidencia_id,
+                incidenciaId: row.INCIDENCIA_id,
                 incidenciaNombre: row.incidencia_nombre,
                 fechaHora: row.fecha_hora
             }));
@@ -61,7 +64,7 @@ class ReporteIncidenciaService {
         try {
             const result = await sql`
                 SELECT * FROM "REPORTE_INCIDENCIA" 
-                WHERE vehiculo_id = ${vehiculoId} AND incidencia_id = ${incidenciaId}
+                WHERE "VEHICULO_id" = ${vehiculoId} AND "INCIDENCIA_id" = ${incidenciaId}
             `;
             
             if (result.length === 0) {
@@ -69,7 +72,11 @@ class ReporteIncidenciaService {
             }
             
             const row = result[0];
-            return new ReporteIncidencia(row.vehiculo_id, row.incidencia_id, row.fecha_hora);
+            return {
+                vehiculoId: row.VEHICULO_id,
+                incidenciaId: row.INCIDENCIA_id,
+                fechaHora: row.fecha_hora
+            };
         } catch (error) {
             console.error('Error en obtenerReportePorId:', error);
             if (error.code === 'ECONNREFUSED' || error.code === 'ETIMEDOUT') {
@@ -84,14 +91,14 @@ class ReporteIncidenciaService {
             const result = await sql`
                 SELECT ri.*, i.nombre as incidencia_nombre
                 FROM "REPORTE_INCIDENCIA" ri
-                JOIN "INCIDENCIA" i ON ri.incidencia_id = i.id
-                WHERE ri.vehiculo_id = ${vehiculoId}
+                JOIN "INCIDENCIA" i ON ri."INCIDENCIA_id" = i.id
+                WHERE ri."VEHICULO_id" = ${vehiculoId}
                 ORDER BY ri.fecha_hora DESC
             `;
             
             return result.map(row => ({
-                vehiculoId: row.vehiculo_id,
-                incidenciaId: row.incidencia_id,
+                vehiculoId: row.VEHICULO_id,
+                incidenciaId: row.INCIDENCIA_id,
                 incidenciaNombre: row.incidencia_nombre,
                 fechaHora: row.fecha_hora
             }));
@@ -111,8 +118,8 @@ class ReporteIncidenciaService {
             const result = await sql`
                 UPDATE "REPORTE_INCIDENCIA"
                 SET fecha_hora = ${fechaHora || new Date()}
-                WHERE vehiculo_id = ${vehiculoId} AND incidencia_id = ${incidenciaId}
-                RETURNING vehiculo_id, incidencia_id
+                WHERE "VEHICULO_id" = ${vehiculoId} AND "INCIDENCIA_id" = ${incidenciaId}
+                RETURNING "VEHICULO_id", "INCIDENCIA_id"
             `;
             
             if (!result || result.length === 0) {
@@ -133,8 +140,8 @@ class ReporteIncidenciaService {
         try {
             const result = await sql`
                 DELETE FROM "REPORTE_INCIDENCIA" 
-                WHERE vehiculo_id = ${vehiculoId} AND incidencia_id = ${incidenciaId}
-                RETURNING vehiculo_id, incidencia_id
+                WHERE "VEHICULO_id" = ${vehiculoId} AND "INCIDENCIA_id" = ${incidenciaId}
+                RETURNING "VEHICULO_id", "INCIDENCIA_id"
             `;
             
             if (!result || result.length === 0) {
